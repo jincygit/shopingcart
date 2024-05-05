@@ -54,9 +54,15 @@ $route['create-product'] = 'HomeController/createProduct';
 $route['forgot-password'] = 'HomeController/forgotPassword';
 $route['update_password'] = 'HomeController/updatePassword';
 
-$route['login'] = 'HomeController/login';
+$route['success-Verify'] = 'HomeController/successUserVerify';
 
+
+$route['login'] = 'HomeController/login';
 $route['register'] = 'HomeController/register';
+$route['registerSubmissionAPI'] = 'HomeController/registerSubmissionAPI';
+
+$route['set'] = 'Api/set';
+
 
 
 $route['404_override'] = '';

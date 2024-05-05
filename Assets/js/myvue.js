@@ -2,10 +2,17 @@ var app = new Vue({
     el: '#app',
     data: {
         //register
-        userName: '',
-        userEmail: '',
-        userPassword: '',
-        userConfirmPassword: '',
+        signup: {
+            userName: '',
+            userEmail: '',
+            userPassword: '',
+            userConfirmPassword: '',
+        },
+        // //register
+        // userName: '',
+        // userEmail: '',
+        // userPassword: '',
+        // userConfirmPassword: '',
         //forgot password
         forgotPasswordEmail: '',
         //login
@@ -25,10 +32,13 @@ var app = new Vue({
         //editCategory
         errors: {
             //register
-            userNameError: '',
-            userEmailError: '',
-            userPasswordError: '',
-            userConfirmPasswordError: '',
+            signup: {             
+                userNameError: '',
+                userEmailError: '',
+                userPasswordError: '',
+                userConfirmPasswordError: '',
+            },
+            
             //forgot password
             forgotPasswordEmailError: '',
             //login
@@ -54,18 +64,18 @@ var app = new Vue({
             // Validate userName
             if(type == "name"){
                 const alphanumericRegex = /^[a-zA-Z0-9]+$/;
-                this.errors.userNameError = '';
+                this.errors.signup.userNameError = '';
                 // Check if data is empty         
-                if (!this.userName.trim()) {
-                    this.errors.userNameError = 'Username is required';
+                if (!this.signup.userName.trim()) {
+                    this.errors.signup.userNameError = 'Username is required';
                 }
-                //Check if username length is within the specified range
-                else if (this.userName.length < 2 || this.userName.length > 25) {
-                    this.errors.userNameError = 'Username must be between 2 and 25 characters';
+                //Check if its length is within the specified range
+                else if (this.signup.userName.length < 2 || this.signup.userName.length > 25) {
+                    this.errors.signup.userNameError = 'Username must be between 2 and 25 characters';
                 }               
-                // Check if username contains only alphanumeric characters
-                else if (!alphanumericRegex.test(this.userName)) {
-                    this.errors.userNameError = 'Username can only contain letters and numbers';
+                // Check if it contains only alphanumeric characters
+                else if (!alphanumericRegex.test(this.signup.userName)) {
+                    this.errors.signup.userNameError = 'Username can only contain letters and numbers';
                 }
                 
             }
@@ -73,44 +83,44 @@ var app = new Vue({
             // Validate userEmail
             if(type == "email"){
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                this.errors.userEmailError = '';
+                this.errors.signup.userEmailError = '';
                 // Check if data is empty         
-                if (!this.userEmail.trim()) {
-                    this.errors.userEmailError = 'Useremail is required';
+                if (!this.signup.userEmail.trim()) {
+                    this.errors.signup.userEmailError = 'Useremail is required';
                 }               
                 // Check if email format is valid
-                else if (!emailRegex.test(this.userEmail)) {
-                    this.errors.userEmailError = 'Invalid email format';
+                else if (!emailRegex.test(this.signup.userEmail)) {
+                    this.errors.signup.userEmailError = 'Invalid email format';
                 }
             }
 
             // Validate userPassword
             if(type == "password"){
-                this.errors.userPasswordError = '';
+                this.errors.signup.userPasswordError = '';
                 // Check if data is empty         
-                if (!this.userPassword.trim()) {
-                    this.errors.userPasswordError = 'UserPassword is required';
+                if (!this.signup.userPassword.trim()) {
+                    this.errors.signup.userPasswordError = 'UserPassword is required';
                 }
                 //Check if its length is within the specified range
-                else if (this.userPassword.length < 8 || this.userPassword.length > 25) {
-                    this.errors.userPasswordError = 'UserPassword must be between 8 and 25 characters';
+                else if (this.signup.userPassword.length < 8 || this.signup.userPassword.length > 25) {
+                    this.errors.signup.userPasswordError = 'UserPassword must be between 8 and 25 characters';
                 }                             
             }
 
             // Validate userConfirmPassword
             if(type == "confirmpassword"){
-                this.errors.userConfirmPasswordError = '';
+                this.errors.signup.userConfirmPasswordError = '';
                 // Check if data is empty         
-                if (!this.userConfirmPassword.trim()) {
-                    this.errors.userConfirmPasswordError = 'UserPassword is required';
+                if (!this.signup.userConfirmPassword.trim()) {
+                    this.errors.signup.userConfirmPasswordError = 'UserPassword is required';
                 }
                 //Check if its length is within the specified range
-                else if (this.userConfirmPassword.length < 8 || this.userConfirmPassword.length > 25) {
-                    this.errors.userConfirmPasswordError = 'UserPassword must be between 8 and 25 characters';
+                else if (this.signup.userConfirmPassword.length < 8 || this.signup.userConfirmPassword.length > 25) {
+                    this.errors.signup.userConfirmPasswordError = 'UserPassword must be between 8 and 25 characters';
                 }
                 // Check if confirm password matches userPassword
-                else if (this.userConfirmPassword !== this.userPassword) {
-                    this.errors.userConfirmPasswordError = 'Passwords do not match';
+                else if (this.signup.userConfirmPassword !== this.signup.userPassword) {
+                    this.errors.signup.userConfirmPasswordError = 'Passwords do not match';
                 }                           
             }
         },
@@ -269,6 +279,34 @@ var app = new Vue({
                 }
                 
             }
+        },
+        signupSubmitmission() {
+
+            //API callling
+            const requestData = {
+                signup: this.signup,
+                additionalData: {
+                    functionType: 'API',
+                }
+            };
+            fetch('http://localhost/shopping/registerSubmissionAPI', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Handle successful submission
+                console.log('Form submitted successfully');
+            })
+            .catch(error => {
+                // Handle error
+                console.error('There was a problem with form submission:', error);
+            });
         },
         submitForm() {
             this.errors = {}; // Reset errors
