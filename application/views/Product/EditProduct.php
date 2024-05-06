@@ -1,11 +1,11 @@
 
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Create Product</h1>
+            <h1 class="text-center text-white display-6">Edit Product</h1>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item"><a href="#">Product</a></li>
-                <li class="breadcrumb-item active text-white">Create Product</li>
+                <li class="breadcrumb-item active text-white">Edit Product</li>
             </ol>
         </div>
         <!-- Single Page Header End -->
@@ -30,66 +30,69 @@
                                 </p>
                             </div>
                         </div>
+                        
                         <div class="col-lg-12">
                             <div class="h-100 rounded">
-                                <form @submit.prevent="addProductSubmission" class="">
+                                <form @submit.prevent="editProductSubmission" class="">
+                               
                                     <input type="text" 
                                         class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Product Name" 
                                         autocomplete="off" 
-                                        v-model="addProduct.addProductName" 
+                                       
+                                        v-model="editProduct.editProductName" 
                                         name="user_name" 
-                                        @input="addProductInputFieldValidation('name')"
+                                        @input="editProductInputFieldValidation('name')"
                                     >
-                                    <p v-if="errors.addProduct.addProductNameError" class="error text-danger">{{ errors.addProduct.addProductNameError }}</p>
+                                    <p v-if="errors.editProduct.editProductNameError" class="error text-danger">{{ errors.editProduct.editProductNameError }}</p>
                                     <input type="text" 
                                         class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Product Price" 
                                         autocomplete="off" 
-                                        v-model="addProduct.addProductPrice" 
+                                        v-model="editProduct.editProductPrice" 
                                         name="user_name" 
-                                        @input="addProductInputFieldValidation('price')"
+                                        @input="editProductInputFieldValidation('price')"
                                     >
-                                    <p v-if="errors.addProduct.addProductPriceError" class="error text-danger">{{ errors.addProduct.addProductPriceError }}</p>
+                                    <p v-if="errors.editProduct.editProductPriceError" class="error text-danger">{{ errors.editProduct.editProductPriceError }}</p>
                                     <textarea 
                                         class="w-100 form-control border-0 mb-4" 
                                         rows="5" 
                                         cols="10" 
                                         placeholder="Enter Product Description"
                                         autocomplete="off" 
-                                        v-model="addProduct.addProductDescription" 
+                                        v-model="editProduct.editProductDescription" 
                                         name="user_name" 
-                                        @input="addProductInputFieldValidation('description')"
+                                        @input="editProductInputFieldValidation('description')"
                                     ></textarea>
-                                    <p v-if="errors.addProduct.addProductDescriptionError" class="error text-danger">{{ errors.addProduct.addProductDescriptionError }}</p>
+                                    <p v-if="errors.editProduct.editProductDescriptionError" class="error text-danger">{{ errors.editProduct.editProductDescriptionError }}</p>
 
                                     <div class="form-group">
                                         <label>Choose product categories</label>
                                         <div v-for="(categorydata, category_id) in categoryList" :key="category_id">
                                             <div class="checkbox-group">
-                                                <input type="checkbox" name="category" :value="categorydata.category_id" v-model="addProduct.addProductCategory" 
-                                                name="category[]" @input="addProductInputFieldValidation('category')" 
-                                                @change="checkProductCategory()">
+                                                <!-- <input type="checkbox" name="category" :value="categorydata.category_id" v-model="editProduct.editProductCategory" 
+                                                name="category[]" @input="editProductInputFieldValidation('category')" 
+                                                @change="checkProductCategory()" :checked="isCategorySelected(categorydata.category_id)"> -->
+                                                <input type="checkbox" 
+                                                    name="category" 
+                                                    :value="categorydata.category_id" 
+                                                    v-model="editProduct.editProductCategory" 
+                                                    name="category[]" 
+                                                    @input="editProductInputFieldValidation('category')" 
+                                                    @change="checkProductCategory()">
                                                 <label for="category1"> {{ categorydata.category_name }}</label>
                                             </div>
                                         </div>
-                                        <!-- <div class="checkbox-group">
-                                            <input type="checkbox" id="category2" value="2" v-model="addProduct.addProductCategory" name="category[]" @input="addProductInputFieldValidation('category')">
-                                            <label for="category2">Category 2</label>
-                                        </div>
-                                        <div class="checkbox-group">
-                                            <input type="checkbox" id="category3" value="3" v-model="addProduct.addProductCategory" name="category[]" @input="addProductInputFieldValidation('category')">
-                                            <label for="category3">Category 1</label>
-                                        </div>              -->
+                                        
                                     </div>
 
 
                                     
-                                    <p v-if="errors.addProduct.addProductCategoryError" class="error text-danger">{{ errors.addProduct.addProductCategoryError }}</p>
+                                    <p v-if="errors.editProduct.editProductCategoryError" class="error text-danger">{{ errors.editProduct.editProductCategoryError }}</p>
                                     
                                     <button 
                                         class="w-100 btn form-control border-secondary py-3 bg-white text-primary " 
                                         type="submit"
                                     >
-                                        <i v-if="addProduct.buttonLoaderFlag"class="fa bi bi-hourglass-top me-2 text-white"></i>
+                                        <i v-if="editProduct.buttonLoaderFlag"class="fa bi bi-hourglass-top me-2 text-white"></i>
                                         <p v-else>Submit</p>
                                     </button>
                                 </form>

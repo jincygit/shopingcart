@@ -21,20 +21,17 @@ if ( ! function_exists('userVerificationMail'))
         $object->email->to($useremail);
         $object->email->subject('Your Email Subject');      
 
-        //email template  formating
-        // $data =[
-        //     "username"=>"HH", 
-        //     "verification_link"=>"http://localhost/shopping/success-Verify#"
-        // ];
-        $email_template = $object->load->view('Email/PasswordVerificationEmail', $data, TRUE);
+        
+        $email_template = $object->load->view('Email/AccountVerificationEmail', $data, TRUE);
         $email_message = sprintf($email_template);
         $object->email->message($email_template);
 
         //email send 
-        if ($object->email->send()) {
-            echo 'Email sent successfully.';
-        } else {
-            echo 'Unable to send email. Error: ' . $object->email->print_debugger();
-        }
+        $object->email->send();
+        // if ($object->email->send()) {
+        //     echo 'Email sent successfully.';
+        // } else {
+        //     echo 'Unable to send email. Error: ' . $object->email->print_debugger();
+        // }
     }   
 }

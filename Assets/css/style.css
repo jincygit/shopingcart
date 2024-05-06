@@ -268,7 +268,7 @@
 .service .service-item .service-content {
     position: relative;
     width: 250px; 
-    height: 130px; 
+    height: 147px; 
     top: -50%; 
     left: 50%; 
     transform: translate(-50%, -50%);
@@ -516,3 +516,27 @@
     margin-right: 5px;
 }
 /*** Category Checkbox End ***/
+/*** Toastmessage  Start ***/
+
+.notification {
+    position: fixed;
+    top: 168px;
+    left: 76%;
+    transform: translateX(-50%);
+    background-color: #0ae311;
+    color: #000000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.5s;
+    font-weight: bold; 
+    border-width: 2px; 
+    border-style: solid; 
+  }
+
+  .notification.show {
+    opacity: 1;
+  }
+/*** Toastmessage  End ***/

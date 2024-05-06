@@ -50,18 +50,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'HomeController';
-$route['create-product'] = 'HomeController/createProduct';
-$route['forgot-password'] = 'HomeController/forgotPassword';
-$route['update_password'] = 'HomeController/updatePassword';
+$route['set'] = 'Api/set';
+$route['home'] = 'HomeController/index';
 
-$route['success-Verify'] = 'HomeController/successUserVerify';
+//$route['successUserVerify'] = 'HomeController/successUserVerify';
+$route['successUserVerify/(:any)/(:any)'] = 'HomeController/successUserVerify/$1/$2';
+
 
 
 $route['login'] = 'HomeController/login';
+$route['loginSubmissionAPI'] = 'HomeController/loginSubmissionAPI';
+
 $route['register'] = 'HomeController/register';
 $route['registerSubmissionAPI'] = 'HomeController/registerSubmissionAPI';
 
-$route['set'] = 'Api/set';
+$route['forgotPassword'] = 'HomeController/forgotPassword';
+$route['forgotSubmissionAPI'] = 'HomeController/forgotSubmissionAPI';
+
+$route['update_password'] = 'HomeController/updatePassword';
+$route['changePasswordAPI'] = 'HomeController/changePasswordAPI';
+
+$route['createProduct'] = 'HomeController/createProduct';
+$route['addProductAPI'] = 'HomeController/addProductAPI';
+
+$route['editProduct'] = 'HomeController/editProduct';
+$route['editProductAPI'] = 'HomeController/editProductAPI';
+$route['singleProductDataAPI'] = 'HomeController/singleProductDataAPI';
+$route['allProductDataAPI'] = 'HomeController/allProductDataAPI';
+$route['deleteProductAPI'] = 'HomeController/deleteProductAPI';
+
+
+
+$route['createCategory'] = 'HomeController/createCategory';
+$route['addCategoryAPI'] = 'HomeController/addCategoryAPI';
+
+$route['editCategory'] = 'HomeController/editCategory';
+$route['editCategoryAPI'] = 'HomeController/editCategoryAPI';
+$route['singleCategoryDataAPI'] = 'HomeController/singleCategoryDataAPI';
+$route['categoryListingAPI'] = 'HomeController/categoryListingAPI';
+$route['deleteCategoryAPI'] = 'HomeController/deleteCategoryAPI';
+
+
+$route['logout'] = 'HomeController/logout';
 
 
 

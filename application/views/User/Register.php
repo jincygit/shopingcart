@@ -4,12 +4,19 @@
             <h1 class="text-center text-white display-6">Register</h1>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                <li class="breadcrumb-item"><a href="#">User</a></li>
                 <li class="breadcrumb-item active text-white">Register</li>
             </ol>
         </div>
         <!-- Single Page Header End -->
 
+
+        <!-- Toast Notification Start -->
+        <div class="notification" v-bind:class="{ 'show': showNotification }">
+            {{ notificationMessage }}
+        </div>
+        <!-- Toast Notification End -->
+        
 
         <!-- Contact Start -->
         <div class="container-fluid contact py-5">
@@ -25,7 +32,7 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="h-100 rounded">
-                                <form   @submit.prevent="signupSubmitmission" class="">
+                                <form   @submit.prevent="signupSubmission" class="">
                                     <input type="text" 
                                         class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name" 
                                         autocomplete="off" 
@@ -64,12 +71,16 @@
                                         class="w-100 btn form-control border-secondary py-3 bg-white text-primary " 
                                         type="submit"
                                     >
-                                        Submit<!-- @click="signupSubmitmission" -->
+                                        <i v-if="signup.buttonLoaderFlag"class="fa bi bi-hourglass-top me-2 text-white"></i>
+                                        <p v-else>Submit</p>
                                     </button>
                                 </form>
                             </div>
                         </div>
-                        
+                        <div class="col-lg-12 text-center">
+                            <p class="mb-0">Do you have an account? <a href="<?php echo base_url(''); ?>/login" class="text-primary">Login</a></p>
+                            <p class="mt-2">Have you forgot password? <a href="<?php echo base_url(''); ?>/forgotPassword" class="text-primary">Forgot Password</a></p>
+                        </div>
                     </div>
                 </div>
             </div>

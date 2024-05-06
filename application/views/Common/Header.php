@@ -18,8 +18,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
         <!-- Libraries Stylesheet -->
-        <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="<?php echo base_url(''); ?>/Assets/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+        <link href="<?php echo base_url(''); ?>/Assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
         <!-- Customized Bootstrap Stylesheet -->
@@ -29,6 +29,7 @@
         <link href="<?php echo base_url(''); ?>/Assets/css/style.css" rel="stylesheet">
          <!-- Include Vue.js from CDN -->
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
     </head>
 
     <body>
@@ -58,28 +59,28 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Shop Now</h1></a>
+                    <a href="<?php echo base_url(''); ?>home" class="navbar-brand"><h1 class="text-primary display-6">Shop Now</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.html" class="nav-item nav-link active">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
+                            <a href="<?php echo base_url(''); ?>home" class="nav-item nav-link active">Home</a>
+                            <a href="<?php echo base_url(''); ?>login" class="nav-item nav-link">Login</a>
+                            <a href="<?php echo base_url(''); ?>register" class="nav-item nav-link">Register</a>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Create</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="cart.html" class="dropdown-item">Cart</a>
-                                    <a href="chackout.html" class="dropdown-item">Chackout</a>
-                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                    <a href="404.html" class="dropdown-item">404 Page</a>
+                                    <a href="<?php echo base_url(''); ?>createProduct" class="dropdown-item">Create Product</a>
+                                    <a href="<?php echo base_url(''); ?>createCategory" class="dropdown-item">Create Category</a>
+                                    
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="<?php echo base_url(''); ?>forgotPassword" class="nav-item nav-link">Forgot Password</a>
+                            <a href="<?php echo base_url(''); ?>logout" class="nav-item nav-link">Logout</a>
                         </div>
                         <div class="d-flex m-3 me-0">
-                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target=""><i class="fas fa-search text-primary"></i></button>
                             <a href="#" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
