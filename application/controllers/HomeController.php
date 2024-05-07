@@ -56,7 +56,8 @@ class HomeController extends CI_Controller {
         // $user_id = $this->session->userdata('USER_EMAIL');
         // $user_role = $this->session->userdata('USER_ROLE');
         // echo $user_id;echo "<br>";
-        // echo $user_role;echo "<br>";die;
+        // echo $user_role;echo "<br>";
+        //echo $user_role;echo "<br>";die;
 
         $this->load->view('Common/Header');
 		$this->load->view('User/Login');
@@ -135,7 +136,7 @@ class HomeController extends CI_Controller {
     public function createProduct()
 	{
         //only admin can enter this page
-        if ($this->session->has_userdata('USER_ROLE')==="admin") {
+        if ($this->session->userdata('USER_ROLE')==="admin") {
             $this->load->view('Common/Header');
 		    $this->load->view('Product/CreateProduct');
             $this->load->view('Common/Footer');
@@ -148,7 +149,7 @@ class HomeController extends CI_Controller {
     public function editProduct()
 	{
         //only admin can enter this page
-        if ($this->session->has_userdata('USER_ROLE')==="admin") {
+        if ($this->session->userdata('USER_ROLE')==="admin") {
             $this->load->view('Common/Header');
 		    $this->load->view('Product/EditProduct');
             $this->load->view('Common/Footer');
@@ -162,7 +163,7 @@ class HomeController extends CI_Controller {
     public function createCategory()
 	{
         //only admin can enter this page
-        if ($this->session->has_userdata('USER_ROLE')==="admin") {
+        if ($this->session->userdata('USER_ROLE')==="admin") {
             $this->load->view('Common/Header');
 		    $this->load->view('Category/CreateCategory');
             $this->load->view('Common/Footer');
@@ -176,7 +177,7 @@ class HomeController extends CI_Controller {
     public function editCategory()
 	{
         //only admin can enter this page
-        if ($this->session->has_userdata('USER_ROLE')==="admin") {
+        if ($this->session->userdata('USER_ROLE')==="admin") {
             $this->load->view('Common/Header');
 		    $this->load->view('Category/EditCategory');
             $this->load->view('Common/Footer');
