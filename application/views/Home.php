@@ -93,14 +93,14 @@
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold mb-0">${{ productdata.product_price }} / kg</p>
                                                     </div>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">                                               
+                                                    <!-- <div class="d-flex justify-content-between flex-lg-wrap">                                               
                                                         <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa bi bi-cart-fill me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap" @click="selectedProductUpdate(productdata,'edit')">
+                                                    </div> -->
+                                                    <div v-if="userActivityPermission"  class="d-flex justify-content-between flex-lg-wrap" @click="selectedProductUpdate(productdata,'edit')">
                                                     
                                                         <a  href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa bi bi-pencil-fill me-2 text-primary"></i> View/Edit</a>
                                                     </div>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap" @click="selectedProductUpdate(productdata,'delete')">
+                                                    <div v-if="userActivityPermission" class="d-flex justify-content-between flex-lg-wrap" @click="selectedProductUpdate(productdata,'delete')">
                                                         <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa bi bi-trash-fill me-2 text-primary"></i> Delete</a>
                                                     </div>
                                                 </div>
@@ -128,13 +128,9 @@
                         <div id="tab-1" class="tab-pane fade show p-0 active">
                             <div class="row g-4">
                                 <div class="col-lg-12">
-                                    <!-- <div class="row g-4"> -->
-                                        <!-- <div class="col-lg-4 text-start">
-                                            <h1>Our Organic Products</h1>
-                                        </div>
-                                        <div class="col-lg-8 text-end"> -->
+                                   
                                             <ul class="nav nav-pills d-inline-flex text-center mb-5">
-                                                <li class="nav-item">
+                                                <!-- <li class="nav-item">
                                                     <a class="d-flex py-2 m-2 rounded-pill bg-green" data-bs-toggle="pill" href="#tab-2">
                                                         <span class="text-white" style="width: 130px;"><i class="fa bi bi-arrow-left-circle-fill me-2 text-white"></i>Prev</span>
                                                     </a>
@@ -165,10 +161,9 @@
                                                     <a class="d-flex py-2 m-2 rounded-pill bg-green" data-bs-toggle="pill" href="#tab-2">
                                                         <span class="text-white" style="width: 130px;">Next<i class="fa bi bi-arrow-right-circle-fill me-2-left text-white"></i></span>
                                                     </a>
-                                                </li>
+                                                </li> -->
                                             </ul>
-                                        <!-- </div>                                         -->
-                                    <!-- </div> -->
+                                       
                                 </div>
                             </div>
                         </div>
@@ -210,8 +205,8 @@
                             
                                 <div class="service-content bg-primary text-center p-4 rounded">
                                     <h3 class="mb-0">{{ categorydata.category_name }}</h3>
-                                    <h5 class="text-white" @click="selectedCategoryUpdate(categorydata,'edit')"><a href="#" class="btn border border-secondary rounded-pill px-3 text-light"><i class="fa bi bi-pencil-fill me-2 text-light"></i>View/Edit</a></h5>
-                                    <h5 class="text-white" @click="selectedCategoryUpdate(categorydata,'delete')"><a href="" class="btn border border-secondary rounded-pill px-3 text-light"><i class="fa bi bi-trash-fill me-2 text-light"></i>Delete</a></h5>
+                                    <h5 v-if="userActivityPermission" class="text-white" @click="selectedCategoryUpdate(categorydata,'edit')"><a href="#" class="btn border border-secondary rounded-pill px-3 text-light"><i class="fa bi bi-pencil-fill me-2 text-light"></i>View/Edit</a></h5>
+                                    <h5 v-if="userActivityPermission" class="text-white" @click="selectedCategoryUpdate(categorydata,'delete')"><a href="" class="btn border border-secondary rounded-pill px-3 text-light"><i class="fa bi bi-trash-fill me-2 text-light"></i>Delete</a></h5>
                                 </div>
                             </div>
                         </div>

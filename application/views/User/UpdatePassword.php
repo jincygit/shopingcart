@@ -59,8 +59,8 @@
                             </div>
                         </div>
                         <div class="col-lg-12 text-center">
-                            <p class="mb-0">Don't have an account? <a href="<?php echo base_url(''); ?>/register" class="text-primary">Register</a></p>
-                            <p class="mt-2">Already have an account? <a href="<?php echo base_url(''); ?>/login" class="text-primary">Login</a></p>
+                            <p class="mb-0">Don't have an account? <a href="<?php echo base_url(''); ?>register" class="text-primary">Register</a></p>
+                            <p class="mt-2">Already have an account? <a href="<?php echo base_url(''); ?>login" class="text-primary">Login</a></p>
                         </div> 
                     </div>
                 </div>

@@ -63,8 +63,8 @@
                             </div>
                         </div>
                         <div class="col-lg-12 text-center">
-                            <p class="mb-0">Don't have an account? <a href="<?php echo base_url(''); ?>/register" class="text-primary">Register</a></p>
-                            <p class="mt-2">Have you forgot password? <a href="<?php echo base_url(''); ?>/forgotPassword" class="text-primary">Forgot Password</a></p>
+                            <p class="mb-0">Don't have an account? <a href="<?php echo base_url(''); ?>register" class="text-primary">Register</a></p>
+                            <p class="mt-2">Have you forgot password? <a href="<?php echo base_url(''); ?>forgotPassword" class="text-primary">Forgot Password</a></p>
                         </div>
                     </div>
                 </div>

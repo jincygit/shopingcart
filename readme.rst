@@ -60,18 +60,40 @@ FUNCTIONALITY WISE SIMPLE PLANNING
 
 
 **signup page**
-    validations
-    user already exist or not
-    user already verified or not, not verified then again send verifcationemail
-    submission by API
-**successUserVerify**
-    validations
-    user already exist or not
-    user already verified or not
-    checking otp expirytime
-    submission
+    -validations
+    -user already exist or not
+    -user already verified or not, not verified then again send verifcationemail
+    -submission by API
 
+**successUserVerify**
+    -validations
+    -user already exist or not
+    -user already verified or not
+    -checking otp expirytime
+    -submission
+
+**login page**
+    -validations
+    -submission by API
+        -check user exist or not
+        -invalid passwword
+        -success submission
+
+**forgot password page**
+    validations
+    submission by API
+        check user exist or not
+        redirect to change password page
+
+**change password**
+    validations
+    submission by API
+        check user exist or not
+        success password updation 
+
+**logout functionality**
 **HOME**
+    restrict entry, without login
     Product listing
 	    Pagination by API
         Add to cart button
@@ -88,56 +110,78 @@ FUNCTIONALITY WISE SIMPLE PLANNING
     product submission
         one or more category allowed,miminum one category is must
         restrict productname redundancy and keep all productname in lowercase
+**addProductAPI**
+    -validation
+    -userValidate
+    -check product already exist or not  
+    -submission
+**editProductAPI**
+    -validation
+    -userValidate
+    -check product validity
+    -update
+**editProductAPI**
+    -validation
+    -userValidate
+    -check product validity
+    -delete
+
 **product detail page**
 **edit product detail**
 **cart page**
              List product
                    Increase and decrease quantity
-**login page**
-    validations
-    submission by API
-        check user exist or not
-        invalid passwword
-        success submission 
-**logout functionality**
-
-
-**change password**
-    validations
-    submission by API
-        check user exist or not
-        success password updation 
-**forgot password page**
-    validations
-    submission by API
-        check user exist or not
-        redirect to change password page
+ 
 
 
 
+###########
+URLS
+############
 
-### URLS
-http://localhost:3000/              -- for products page
-http://localhost:3000/cart          -- for cart
-http://localhost:3000/create        -- for add products
-http://localhost:3000/details/(id)  -- for products detail page
-### INITIAL DATA BY THIS API URL
-https://my-json-server.typicode.com/jincygit/react_ecommerce-_website/products
-### Access the Application:
-   http://localhost:3000/
+http://localhost/shopping/home              -- home                 -
+http://localhost/shopping/login             -- login
+http://localhost/shopping/logout            -- logout
+http://localhost/shopping/register          -- register
+http://localhost/shopping/forgotPassword    -- forgotpassword
+http://localhost/shopping/update_password   -- update password
+http://localhost/shopping/createProduct     -- for create product   --only admin can
+http://localhost/shopping/createCategory    -- for create category  --only admin can
+http://localhost/shopping/editProduct       -- for edit product     --only admin can
+http://localhost/shopping/editCategory      -- for edit category    --only admin can
+delete product and delete category API also exist   --only admin can
 
 
 
+###########
+CREDENTIALS
+############
+
+*******************
+Admin credentials
+*******************
+admin@gmail.com
+12341234
 
 
 *******************
-
+Normal user credentials (sample)
 *******************
-Project Specification
-*******************
-
-PHP version 5.6 or newer is recommended.
-Codeigniter version 3.1.13
+jincysusanabraham@gmail.com
+12341234
 
 
+######################
+PERMISSION RESTRICTION DETAILS
+#######################
+Admin
+    -add, delete, edit product
+    -add, delete, edit category
+    -productlisting
+    -categorylisting
+    -login,register,forgot password, changepassword, homepage entry
 
+customer
+    -productlisting
+    -categorylisting
+    -login,register,forgot password, changepassword, homepage entry

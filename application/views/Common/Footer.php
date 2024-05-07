@@ -108,6 +108,7 @@
     <script>
         var BASE_URL = '<?php echo base_url(''); ?>';
         var User_Email = '<?php echo $this->session->userdata('USER_EMAIL'); ?>';
+        var User_Role = '<?php echo $this->session->userdata('USER_ROLE'); ?>';
         var Product_Id = '<?php echo $this->session->userdata('PRODUCT_ID'); ?>';
         var Category_Id = '<?php echo $this->session->userdata('CATEGORY_ID'); ?>';
     </script>

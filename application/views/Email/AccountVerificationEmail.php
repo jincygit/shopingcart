@@ -45,11 +45,8 @@
         <h1>Password Verification</h1>
         <p>Hello, <?php echo $username; ?></p>
         <p>We received a request to verify your account. Please click the button below to verify your email address.</p>
-        <form action="<?php echo $verification_link; ?>" method="POST">
-        <input type = "hidden" name = "userotp" value="<?php echo $userotp; ?>">
-        <input type = "hidden" name = "useremail" value="<?php echo $useremail; ?>">
-        <button class="btn">Verify Email Address</button>
-        </form>
+        
+        <a href="<?php echo $verification_link; ?>"><button class="btn">Verify Email Address</button></a>
         
         <p>If you didn't request this, you can safely ignore this email. Your account won't be changed until you verify your email address.</p>
         <p>Thank you,</p>

@@ -22,11 +22,16 @@ class HomeController extends CI_Controller {
 
 
     /////////USER SECTIONS/////////
-    public function index()
-	{
-        $this->load->view('Common/Header');
-		$this->load->view('Home');
-        $this->load->view('Common/Footer');
+    public function index(){
+        //restrict user to enter dome page, only after login
+	    $responseData= $this->userValidate();
+        if ($responseData["status"]===true){
+            $this->load->view('Common/Header');
+            $this->load->view('Home');
+            $this->load->view('Common/Footer');
+        }else{
+            redirect('login');
+        }
 	}
 
     /////////USER FUNCTIONS/////////
@@ -47,7 +52,12 @@ class HomeController extends CI_Controller {
     
 
     public function login()
-	{
+	{   //testingdata
+        // $user_id = $this->session->userdata('USER_EMAIL');
+        // $user_role = $this->session->userdata('USER_ROLE');
+        // echo $user_id;echo "<br>";
+        // echo $user_role;echo "<br>";die;
+
         $this->load->view('Common/Header');
 		$this->load->view('User/Login');
         $this->load->view('Common/Footer');
@@ -72,15 +82,18 @@ class HomeController extends CI_Controller {
 
     
     public function updatePassword()
-	{
-        $this->load->view('Common/Header');
-		$this->load->view('User/UpdatePassword');
-        $this->load->view('Common/Footer');
+	{   //restrict user to enter dome page, only after forgot password
+        if ($this->session->has_userdata('FORGOT_PASSWORD_EMAIL')) {
+            $this->load->view('Common/Header');
+            $this->load->view('User/UpdatePassword');
+            $this->load->view('Common/Footer');
+        }else{
+            redirect('forgotPassword');
+        }
 	}
 
     //registered user verify
     public function successUserVerify($user,$user_otp){
-    
         if(!empty($user) && !empty($user_otp)){
             //check user existence with otp
             $user_data_exist = $this->User_model->registerUserVerification($user,$user_otp);
@@ -121,33 +134,56 @@ class HomeController extends CI_Controller {
     /////////PRODUCT FUNCTIONS/////////
     public function createProduct()
 	{
-        $this->load->view('Common/Header');
-		$this->load->view('Product/CreateProduct');
-        $this->load->view('Common/Footer');
+        //only admin can enter this page
+        if ($this->session->has_userdata('USER_ROLE')==="admin") {
+            $this->load->view('Common/Header');
+		    $this->load->view('Product/CreateProduct');
+            $this->load->view('Common/Footer');
+        }else{
+            redirect('login');
+        }
 	}
 
     
     public function editProduct()
 	{
-        $this->load->view('Common/Header');
-		$this->load->view('Product/EditProduct');
-        $this->load->view('Common/Footer');
+        //only admin can enter this page
+        if ($this->session->has_userdata('USER_ROLE')==="admin") {
+            $this->load->view('Common/Header');
+		    $this->load->view('Product/EditProduct');
+            $this->load->view('Common/Footer');
+        }else{
+            redirect('login');
+        }
+        
 	}
 
     /////////CATEGORY FUNCTIONS/////////
     public function createCategory()
 	{
-        $this->load->view('Common/Header');
-		$this->load->view('Category/CreateCategory');
-        $this->load->view('Common/Footer');
+        //only admin can enter this page
+        if ($this->session->has_userdata('USER_ROLE')==="admin") {
+            $this->load->view('Common/Header');
+		    $this->load->view('Category/CreateCategory');
+            $this->load->view('Common/Footer');
+        }else{
+            redirect('login');
+        }
+        
 	}
 
     
     public function editCategory()
 	{
-        $this->load->view('Common/Header');
-		$this->load->view('Category/EditCategory');
-        $this->load->view('Common/Footer');
+        //only admin can enter this page
+        if ($this->session->has_userdata('USER_ROLE')==="admin") {
+            $this->load->view('Common/Header');
+		    $this->load->view('Category/EditCategory');
+            $this->load->view('Common/Footer');
+        }else{
+            redirect('login');
+        }
+        
 	}
 
 
@@ -207,7 +243,7 @@ class HomeController extends CI_Controller {
                         "username"=>$data_exist[0]["user_name"], 
                         "useremail"=>$data_exist[0]["user_email"],
                         "userotp"=>$verification_otp,  
-                        "verification_link"=>base_url('')."/successUserVerify"
+                        "verification_link"=>base_url('')."successUserVerify/".$decoded_data["signup"]["user_id"]."/".$verification_otp
                     ];
                     userVerificationMail($maildata,$data_exist[0]["user_email"]);  
                     $responseData["message"]="User exist,user verification email send,please verify";
@@ -219,8 +255,8 @@ class HomeController extends CI_Controller {
                 $verification_otp = rand(100000, 999999);
                 $hash_otp = md5($verification_otp);
                 //add 30 minutes to the current time in UTC for otp expiry
-                $currentTime = gmdate('Y-m-d H:i:s', time());
-                $otp_expiry = gmdate('Y-m-d H:i:s', strtotime($currentTime . ' + 30 minutes'));
+                $currentTime = time();
+                $otp_expiry = gmdate('Y-m-d H:i:s', $currentTime + 1800);
 
 
                 //insert userdata
@@ -232,7 +268,7 @@ class HomeController extends CI_Controller {
                     'user_email' => $decoded_data["signup"]["userEmail"],
                     'user_password' => password_hash($decoded_data["signup"]["userPassword"], PASSWORD_BCRYPT),
                 );
-                $this->User_model->insert_user($data);
+                $inserted_user_id= $this->User_model->insert_user($data);
 
 
                 //customhelper for sending user  verification email
@@ -240,7 +276,7 @@ class HomeController extends CI_Controller {
                     "username"=>$data["user_name"], 
                     "useremail"=>$decoded_data["signup"]["userEmail"],
                     "userotp"=>$verification_otp,  
-                    "verification_link"=>base_url('')."/successUserVerify"
+                    "verification_link"=>base_url('')."/successUserVerify/".$inserted_user_id."/".$verification_otp
                 ];
                 userVerificationMail($maildata,$data["user_email"]);
 
@@ -267,7 +303,6 @@ class HomeController extends CI_Controller {
 	{
         $raw_data = file_get_contents('php://input');
         $decoded_data = json_decode($raw_data, true);
-
         //servervalidation
         if(!empty($raw_data)){
             $_POST['user_email'] = $decoded_data["login"]["loginEmail"];
@@ -277,6 +312,7 @@ class HomeController extends CI_Controller {
         $this->form_validation->set_rules('user_email', 'Your Email', 'required|valid_email');
         $this->form_validation->set_rules('user_password', 'Your Password', 'required');
 
+
         if ($this->form_validation->run() == FALSE) {
             //form validation failed
             $validation_errors = validation_errors();
@@ -285,7 +321,8 @@ class HomeController extends CI_Controller {
                 'errors' => $validation_errors,
                 'message' => "Validation error"
             );
-            
+     
+
         } else {
             //form validation passed
             $responseData = array(
@@ -298,10 +335,13 @@ class HomeController extends CI_Controller {
                 //No user exist                
                 $responseData["message"]="No such user exist";
             } else {
+
+
                 //passwordmatch checking 
                 if (password_verify($_POST['user_password'], $user_data_exist[0]['user_password'])) {
                     //Password is valid,then add user in sessions
                     $this->session->set_userdata('USER_EMAIL', $_POST['user_email']);
+                    $this->session->set_userdata('USER_ROLE', $user_data_exist[0]['user_role']);
                     $responseData = array(
                         'status' => true,
                         'message' => "login successfully"
@@ -321,6 +361,11 @@ class HomeController extends CI_Controller {
 	{
         $raw_data = file_get_contents('php://input');
         $decoded_data = json_decode($raw_data, true);
+        $responseData = array(
+            'status' => false,
+            'message' => ""
+        );
+
 
         //servervalidation
         if(!empty($raw_data)){
@@ -328,7 +373,6 @@ class HomeController extends CI_Controller {
         }
         //validation rules
         $this->form_validation->set_rules('user_email', 'Your Email', 'required|valid_email');
-
         if ($this->form_validation->run() == FALSE) {
             //form validation failed
             $validation_errors = validation_errors();
@@ -337,13 +381,10 @@ class HomeController extends CI_Controller {
                 'errors' => $validation_errors,
                 'message' => "Validation error"
             );
-            
         } else {
             //form validation passed 
-            $responseData = array(
-                'status' => false,
-                'message' => "login sucessfully"
-            );
+            
+
             //checking user existence
             $user_data_exist = $this->User_model->userLogin($_POST['user_email']);
             if (count($user_data_exist) === 0) {
@@ -369,17 +410,23 @@ class HomeController extends CI_Controller {
 	{
         $raw_data = file_get_contents('php://input');
         $decoded_data = json_decode($raw_data, true);
+        $responseData = array(
+            'status' => false,
+            'message' => ""
+        );
+
+
         //servervalidation
         if(!empty($raw_data)){
             $_POST['user_email'] = $decoded_data["changePassword"]["userEmail"];
             $_POST['user_password'] = $decoded_data["changePassword"]["updateNewPassword"];
             $_POST['user_confirm_password'] = $decoded_data["changePassword"]["updateNewConfirmPassword"];
         }
-
         //validation rules
         $this->form_validation->set_rules('user_email', 'Your Email', 'required|valid_email');
         $this->form_validation->set_rules('user_password', 'Your Password', 'required');
         $this->form_validation->set_rules('user_confirm_password', 'Confirm Password', 'required|matches[user_password]');
+
 
         if ($this->form_validation->run() == FALSE) {
             //form validation failed
@@ -389,23 +436,24 @@ class HomeController extends CI_Controller {
                 'errors' => $validation_errors,
                 'message' => "Validation error"
             );
-            echo json_encode($responseData);
-            
+            echo json_encode($responseData);         
         } else {
             //form validation passed
-            $responseData = array(
-                'status' => false,
-                'message' => ""
-            );
+
+            
             //checking user existence
-            $user_data_exist = $this->User_model->userLogin($_POST['user_email']);
+            $forgot_user_email = $this->session->userdata('FORGOT_PASSWORD_EMAIL');
+            $user_data_exist = $this->User_model->userLogin($forgot_user_email);
             if (count($user_data_exist) === 0) {
                 //No user exist                
                 $responseData["message"]="No such user exist";
             } else {
+
+
                 //update hashed password
                 $update_verify_flag = array('user_password' => password_hash($_POST['user_password'], PASSWORD_BCRYPT),);
                 $this->User_model->updateUserData($user_data_exist[0]['user_id'], $update_verify_flag);
+                $this->session->unset_userdata('FORGOT_PASSWORD_EMAIL');
                 $responseData = array(
                     'status' => true,
                     'data' => array('redirect_url' => "login"),
@@ -433,6 +481,7 @@ class HomeController extends CI_Controller {
             'message' => "Validation failed"
         );
 
+
         //servervalidation
         if(!empty($raw_data)){
             $_POST['product_name'] = $decoded_data["addProduct"]["addProductName"];
@@ -456,6 +505,8 @@ class HomeController extends CI_Controller {
             );
         } else {
             //form validation passed
+
+
             //userValidate
             $responseData= $this->userValidate();
             if ($responseData["status"]===true){
@@ -497,6 +548,7 @@ class HomeController extends CI_Controller {
             'message' => "Validation failed"
         );
 
+
         //servervalidation
         if(!empty($raw_data)){
             $_POST['product_name'] = $decoded_data["editProduct"]["editProductName"];
@@ -521,12 +573,15 @@ class HomeController extends CI_Controller {
         } else {
             //form validation passed
 
+
             //userValidate
             $responseData= $this->userValidate();
             if ($responseData["status"]===true){
                 //check product already exist or not  
                 $product_id = $this->session->userdata('PRODUCT_ID');
                 $user_data_exist = $this->User_model->productExistById(strtolower($product_id));
+                
+
                 
                 if (count($user_data_exist) !== 0) {
                     //product  exist  ,then updation possible   
@@ -543,10 +598,8 @@ class HomeController extends CI_Controller {
                     //Product not exist, then cannot update
                     $responseData["status"]=false;
                     $responseData["message"]="Product not exist";            
-                } 
-                
-            }
-                    
+                }        
+            }           
         }
         echo json_encode($responseData); 
 	}
@@ -562,6 +615,8 @@ class HomeController extends CI_Controller {
             'status' => false,
             'message' => "Validation failed"
         );
+
+
         //userValidate
         $responseData= $this->userValidate();
         if ($responseData["status"]===true){
@@ -578,7 +633,6 @@ class HomeController extends CI_Controller {
                 //Product not exist, then cannot delete
                 $responseData["message"]="Product not deleted";            
             }  
-            
         }
         echo json_encode($responseData); 
 	}

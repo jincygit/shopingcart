@@ -85,6 +85,8 @@ var app = new Vue({
         //selectedProductId: 0,
         selectedProductdata: [],
         selectedCategorydata: [], 
+        userRole: '',
+        userActivityPermission: false,
         
         //createCategory
         //editCategory
@@ -147,6 +149,7 @@ var app = new Vue({
         this.productListingAPI();
         this.editProductDataSetting();
         this.editCategoryDataSetting();
+        this.userRoleSetting();
       },
     methods: {
         registerInputFieldValidation(type) {
@@ -590,6 +593,12 @@ var app = new Vue({
                         //success part                    
                         this.showCustomNotify(data.message);
                         this.login.buttonLoaderFlag=0;
+                        if(data.status ===true){
+                            //clear input afetr submission
+                            this.login.loginEmail = "";
+                            this.login.loginPassword = "";
+                            window.location.href = BASE_URL+'home';  
+                        }
                     })
                     .catch(error => {
                         //error in submission
@@ -629,10 +638,15 @@ var app = new Vue({
                         //success part                    
                         this.showCustomNotify(data.message);
                         this.forgot.buttonLoaderFlag=0;
-                        window.location.href = BASE_URL+'/'+data.data.redirect_url;
+                        if(data.status === true){
+                            //clear inputdata
+                            this.forgot.forgotPasswordEmail = "";
+                            window.location.href = BASE_URL+data.data.redirect_url;
+                        }
                     })
                     .catch(error => {
                         //error in submission
+                        console.log(error);
                         this.showCustomNotify('There was a problem with form submission');
                         this.forgot.buttonLoaderFlag=0;
                     });
@@ -680,7 +694,13 @@ var app = new Vue({
                         //success part                    
                         this.showCustomNotify(data.message);
                         this.changePassword.buttonLoaderFlag=0;
-                        window.location.href = BASE_URL+'/'+data.data.redirect_url;
+                        
+                        if(data.status === true){
+                            //clear inputdata
+                            this.changePassword.updateNewPassword = "";
+                            this.changePassword.updateNewConfirmPassword = "";
+                            window.location.href = BASE_URL+data.data.redirect_url;
+                        }
                     })
                     .catch(error => {
                         //error in submission
@@ -737,6 +757,15 @@ var app = new Vue({
                             //success part                    
                             this.showCustomNotify(data.message);
                             this.addProduct.buttonLoaderFlag=0;
+                            
+                            if(data.status === true){
+                                //clear inputdata
+                                this.addProduct.addProductName = "";
+                                this.addProduct.addProductPrice = "";
+                                this.addProduct.addProductCategory = [];
+                                this.addProduct.addProductDescription = "";
+                                window.location.href = BASE_URL+'home';
+                            }
                         })
                         .catch(error => {
                             //error in submission
@@ -808,6 +837,9 @@ var app = new Vue({
                             //success part                    
                             this.showCustomNotify(data.message);
                             this.editProduct.buttonLoaderFlag=0;
+                            if(data.status === true){    
+                                window.location.href = BASE_URL+'home';
+                            }
                         })
                         .catch(error => {
                             //error in submission
@@ -823,45 +855,48 @@ var app = new Vue({
             //check whether user logged in or not before submission
             if(!this.checkUserLogged()){
                 this.showCustomNotify("User not logged yet");
-            }else{
-                //for prevent buttonclick on API processing     
-                if (this.deleteProduct.buttonLoaderFlag===0){
-                    this.deleteProduct.buttonLoaderFlag=1;
-                    //API callling
-                    const requestData = {
-                        editProduct: this.editProduct,
-                        additionalData: {
-                            functionType: 'API',
-                        }
-                    };
-                    fetch(BASE_URL+'deleteProductAPI', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(requestData)
-                    })
-                    .then(response => {
-                        //checking response is ok or not
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {                    
-                        //success part                    
-                        this.showCustomNotify(data.message);
-                        this.deleteProduct.buttonLoaderFlag=0;
-                        //update non deleted products
-                        this.productListingAPI();
-                    })
-                    .catch(error => {
-                        //error in submission
-                        //console.log(error);
-                        this.showCustomNotify('There was a problem with form submission');
-                        this.deleteProduct.buttonLoaderFlag=0;
-                    });
-                    
+            }else{  
+                //checking user permission based on role
+                if(this.userRoleSetting()){
+                    //for prevent buttonclick on API processing     
+                    if (this.deleteProduct.buttonLoaderFlag===0){
+                        this.deleteProduct.buttonLoaderFlag=1;
+                        //API callling
+                        const requestData = {
+                            editProduct: this.editProduct,
+                            additionalData: {
+                                functionType: 'API',
+                            }
+                        };
+                        fetch(BASE_URL+'deleteProductAPI', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(requestData)
+                        })
+                        .then(response => {
+                            //checking response is ok or not
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {                    
+                            //success part                    
+                            this.showCustomNotify(data.message);
+                            this.deleteProduct.buttonLoaderFlag=0;
+                            //update non deleted products
+                            this.productListingAPI();
+                        })
+                        .catch(error => {
+                            //error in submission
+                            //console.log(error);
+                            this.showCustomNotify('There was a problem with form submission');
+                            this.deleteProduct.buttonLoaderFlag=0;
+                        });
+                        
+                    }
                 }
             }      
         },
@@ -899,6 +934,12 @@ var app = new Vue({
                             //success part                    
                             this.showCustomNotify(data.message);
                             this.addCategory.buttonLoaderFlag=0;
+
+                            if(data.status === true){
+                                //clear inputdata
+                                this.addCategory.addCategoryName = "";
+                                window.location.href = BASE_URL+'home';
+                            }
                         })
                         .catch(error => {
                             //error in submission
@@ -1231,6 +1272,26 @@ var app = new Vue({
             console.log(this.editProduct.editProductCategory.includes(categoryId.toString()));
             console.log("end");
             return this.editProduct.editProductCategory.includes(categoryId.toString());
+        },
+        //user role permission validate
+        userRoleSetting(){
+
+            if (User_Role=== "") {
+                this.userActivityPermission = false;
+                return false;
+            }
+            else{
+                this.userRole =User_Role;
+                //only admin can add or delete or edit(products and category)
+                if (User_Role=== "admin") {
+                    this.userActivityPermission = true;
+                    return true;
+                }
+                else{
+                    this.userActivityPermission = false;
+                    return false;
+                }
+            }
         }
     }
     
